@@ -1,0 +1,30 @@
+=== Resultats numeriques ===
+
+[Refroidissement]
+k optimal              : 0.144029
+Perte totale de chaleur: 18591.919889
+Erreur MSE du modele   : 4.544050
+
+Erreur maximale        : 4.389625
+Erreur moyenne         : 1.719893
+
+[Ecoulement]
+Debit total            : 26.975974
+
+[Convergence integration]
+n=  4  Rectangle:5.234e-02  Trapezoidal:1.039e-01  Simpson:4.560e-03  Adaptive:4.441e-16
+n=  8  Rectangle:1.291e-02  Trapezoidal:2.577e-02  Simpson:2.692e-04  Adaptive:4.441e-16
+n= 16  Rectangle:3.216e-03  Trapezoidal:6.430e-03  Simpson:1.659e-05  Adaptive:4.441e-16
+n= 32  Rectangle:8.034e-04  Trapezoidal:1.607e-03  Simpson:1.033e-06  Adaptive:4.441e-16
+n= 64  Rectangle:2.008e-04  Trapezoidal:4.016e-04  Simpson:6.453e-08  Adaptive:4.441e-16
+n=128  Rectangle:5.020e-05  Trapezoidal:1.004e-04  Simpson:4.032e-09  Adaptive:4.441e-16
+
+[Convergence integration exp(x) sur [0,1]]
+n=  2  Rectangle:1.777e-02  Trapezoidal:3.565e-02  Simpson:5.793e-04
+n=  4  Rectangle:4.467e-03  Trapezoidal:8.940e-03  Simpson:3.701e-05
+n=  8  Rectangle:1.118e-03  Trapezoidal:2.237e-03  Simpson:2.326e-06
+n= 16  Rectangle:2.796e-04  Trapezoidal:5.593e-04  Simpson:1.456e-07
+n= 32  Rectangle:6.992e-05  Trapezoidal:1.398e-04  Simpson:9.103e-09
+n= 64  Rectangle:1.748e-05  Trapezoidal:3.496e-05  Simpson:5.690e-10
+n=128  Rectangle:4.370e-06  Trapezoidal:8.740e-06  Simpson:3.556e-11
+n=256  Rectangle:1.092e-06  Trapezoidal:2.185e-06  Simpson:2.222e-12
