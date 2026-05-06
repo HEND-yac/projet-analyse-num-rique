@@ -146,6 +146,17 @@ class FlowProblem:
     def local_flow_rate(self, x_eval):
         return self.velocity(x_eval) * self.width_func(x_eval)
 
+    def acceleration(self, x_eval):
+        h = 1e-5
+        x = np.asarray(x_eval, dtype=float)
+        return (self.velocity(x + h) - self.velocity(x - h)) / (2.0 * h)
+
+    def work(self, mass=2.0):
+        a, b = self.x_data[0], self.x_data[-1]
+        f = lambda x: mass * self.acceleration(x)
+        integ = AdaptiveIntegration()
+        return integ.adaptive_simpson(f, a, b)
+
     def total_flow_rate(self, method="adaptive", n=100):
         a, b = self.x_data[0], self.x_data[-1]
         f = lambda x: self.local_flow_rate(x)

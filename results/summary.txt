@@ -2,7 +2,7 @@
 
 [Refroidissement]
 k optimal              : 0.144029
-Perte totale de chaleur: 18591.919889
+Perte totale de chaleur: 18330.737100
 Erreur MSE du modele   : 4.544050
 
 Erreur maximale        : 4.389625
@@ -10,14 +10,6 @@ Erreur moyenne         : 1.719893
 
 [Ecoulement]
 Debit total            : 26.975974
-
-[Convergence integration]
-n=  4  Rectangle:5.234e-02  Trapezoidal:1.039e-01  Simpson:4.560e-03  Adaptive:4.441e-16
-n=  8  Rectangle:1.291e-02  Trapezoidal:2.577e-02  Simpson:2.692e-04  Adaptive:4.441e-16
-n= 16  Rectangle:3.216e-03  Trapezoidal:6.430e-03  Simpson:1.659e-05  Adaptive:4.441e-16
-n= 32  Rectangle:8.034e-04  Trapezoidal:1.607e-03  Simpson:1.033e-06  Adaptive:4.441e-16
-n= 64  Rectangle:2.008e-04  Trapezoidal:4.016e-04  Simpson:6.453e-08  Adaptive:4.441e-16
-n=128  Rectangle:5.020e-05  Trapezoidal:1.004e-04  Simpson:4.032e-09  Adaptive:4.441e-16
 
 [Convergence integration exp(x) sur [0,1]]
 n=  2  Rectangle:1.777e-02  Trapezoidal:3.565e-02  Simpson:5.793e-04
