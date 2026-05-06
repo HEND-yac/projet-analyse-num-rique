@@ -180,47 +180,7 @@ def run_flow_integration_comparison(viz, x_data, v_data, output_dir):
     plt.close(fig)
 
 
-# 🔷 Convergence
-def run_integration_convergence(viz, output_dir):
-    f = np.sin
-    a, b = 0.0, np.pi
-    exact = 2.0
-
-    n_values = np.array([4, 8, 16, 32, 64, 128])
-    methods = ["Rectangle", "Trapezoidal", "Simpson", "Adaptive"]
-    errors = {name: [] for name in methods}
-
-    adaptive = AdaptiveIntegration(tol=1e-10, max_depth=30)
-    adaptive_value = adaptive.adaptive_simpson(f, a, b)
-
-    for n in n_values:
-        rect_val = NewtonCotes.rectangle(f, a, b, n=int(n))
-        trap_val = NewtonCotes.trapezoidal(f, a, b, n=int(n))
-        simp_val = NewtonCotes.simpson(f, a, b, n=int(n if n % 2 == 0 else n + 1))
-
-        errors["Rectangle"].append(abs(rect_val - exact))
-        errors["Trapezoidal"].append(abs(trap_val - exact))
-        errors["Simpson"].append(abs(simp_val - exact))
-        errors["Adaptive"].append(abs(adaptive_value - exact))
-
-    for k in errors:
-        errors[k] = np.asarray(errors[k], dtype=float)
-
-    fig, _ = viz.plot_convergence(
-        n_values,
-        errors,
-        methods,
-        title="Convergence des methodes d'integration sur sin(x)",
-    )
-    fig.savefig(os.path.join(output_dir, "integration_convergence.png"), dpi=160)
-    plt.close(fig)
-
-    return {
-        "n_values": n_values,
-        "errors": errors,
-    }
-
-
+# 🔷 Convergence (exp(x) sur [0,1] — demande 4.2.1)
 def run_exp_integration_convergence(viz, output_dir):
     f = np.exp
     a, b = 0.0, 1.0
@@ -258,7 +218,7 @@ def run_exp_integration_convergence(viz, output_dir):
 
 
 # 🔷 Résumé (corrigé)
-def save_summary(output_dir, cooling_results, flow_results, conv_results, exp_conv_results):
+def save_summary(output_dir, cooling_results, flow_results, exp_conv_results):
     summary_path = os.path.join(output_dir, "summary.txt")
 
     with open(summary_path, "w", encoding="utf-8") as f:
@@ -274,16 +234,7 @@ def save_summary(output_dir, cooling_results, flow_results, conv_results, exp_co
         f.write("[Ecoulement]\n")
         f.write(f"Debit total            : {flow_results['total_flow_rate']:.6f}\n\n")
 
-        f.write("[Convergence integration]\n")
-        methods = ["Rectangle", "Trapezoidal", "Simpson", "Adaptive"]
-        for i, n in enumerate(conv_results["n_values"]):
-            f.write(f"n={int(n):3d}")
-            for method in methods:
-                val = conv_results["errors"][method][i]
-                f.write(f"  {method}:{val:.3e}")
-            f.write("\n")
-
-        f.write("\n[Convergence integration exp(x) sur [0,1]]\n")
+        f.write("[Convergence integration exp(x) sur [0,1]]\n")
         exp_methods = ["Rectangle", "Trapezoidal", "Simpson"]
         for i, n in enumerate(exp_conv_results["n_values"]):
             f.write(f"n={int(n):3d}")
@@ -306,10 +257,9 @@ def main():
     run_cooling_integration_comparison(viz, t_data, T_data, output_dir)
     flow_results = run_flow_analysis(viz, x_data, v_data, output_dir)
     run_flow_integration_comparison(viz, x_data, v_data, output_dir)
-    conv_results = run_integration_convergence(viz, output_dir)
     exp_conv_results = run_exp_integration_convergence(viz, output_dir)
 
-    save_summary(output_dir, cooling_results, flow_results, conv_results, exp_conv_results)
+    save_summary(output_dir, cooling_results, flow_results, exp_conv_results)
 
     print("✅ Execution terminee. Resultats dans le dossier 'results'.")
 

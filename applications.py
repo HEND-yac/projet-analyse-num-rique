@@ -17,7 +17,6 @@ class CoolingProblem:
 
         # Pre-calculs interpolation
         self.newton_coeffs = self.newton_coefficients()
-        self.spline_second_derivatives = self._build_natural_cubic_spline()
 
     # 🔷 NEWTON COEFFS
     def newton_coefficients(self):
@@ -32,9 +31,6 @@ class CoolingProblem:
 
     # 🔷 EVALUATION NEWTON
     def temperature(self, t_eval):
-        return self.spline_temperature(t_eval)
-
-    def temperature_newton(self, t_eval):
         x = self.t_data
         coeffs = self.newton_coeffs
 
@@ -48,61 +44,7 @@ class CoolingProblem:
             return float(values[0])
         return values
 
-    def _build_natural_cubic_spline(self):
-        x = self.t_data
-        y = self.T_data
-        n = len(x)
 
-        if n < 3:
-            return np.zeros(n, dtype=float)
-
-        h = np.diff(x)
-        a = np.zeros((n, n), dtype=float)
-        rhs = np.zeros(n, dtype=float)
-
-        a[0, 0] = 1.0
-        a[-1, -1] = 1.0
-
-        for i in range(1, n - 1):
-            a[i, i - 1] = h[i - 1]
-            a[i, i] = 2.0 * (h[i - 1] + h[i])
-            a[i, i + 1] = h[i]
-            rhs[i] = 6.0 * ((y[i + 1] - y[i]) / h[i] - (y[i] - y[i - 1]) / h[i - 1])
-
-        return np.linalg.solve(a, rhs)
-
-    def spline_temperature(self, t_eval):
-        x = self.t_data
-        y = self.T_data
-        m = self.spline_second_derivatives
-
-        t = np.asarray(t_eval, dtype=float)
-        is_scalar = t.ndim == 0
-        t_1d = np.atleast_1d(t)
-
-        idx = np.searchsorted(x, t_1d, side="right") - 1
-        idx = np.clip(idx, 0, len(x) - 2)
-
-        x_i = x[idx]
-        x_ip1 = x[idx + 1]
-        y_i = y[idx]
-        y_ip1 = y[idx + 1]
-        m_i = m[idx]
-        m_ip1 = m[idx + 1]
-        h_i = x_ip1 - x_i
-
-        a = (x_ip1 - t_1d) / h_i
-        b = (t_1d - x_i) / h_i
-
-        values = (
-            a * y_i
-            + b * y_ip1
-            + ((a**3 - a) * m_i + (b**3 - b) * m_ip1) * (h_i**2) / 6.0
-        )
-
-        if is_scalar:
-            return float(values[0])
-        return values
 
     def heat_loss_rate(self, t_eval):
         T = self.temperature(t_eval)
